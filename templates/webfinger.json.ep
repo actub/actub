@@ -1,0 +1,35 @@
+{
+    "subject": "acct:<%= $id %>@<%= $domain %>",
+    "aliases": [
+        "<%= $host %>/<%= $id %>"
+    ],
+    "links": [
+        {
+            "rel": "http://webfinger.net/rel/profile-page",
+            "type": "text/html",
+            "href": "<%= $host %>/<%= $id %>"
+        },
+        {
+            "rel": "http://schemas.google.com/g/2010#updates-from",
+            "type": "application/atom+xml",
+            "href": "<%= $host %>/users/<%= $id %>.atom"
+        },
+        {
+            "rel": "self",
+            "type": "application/activity+json",
+            "href": "<%= $host %>/<%= $id %>"
+        },
+        {
+            "rel": "salmon",
+            "href": "<%= $host %>/api/salmon/1014"
+        },
+        {
+            "rel": "magic-public-key",
+            "href": "data:application/magic-public-key,RSA.rHP6chViiIUBjRBmDiaaMb0xYrPNqRtq9lLxVIU6r87aYB1sZ94Q7cm54ijTyBfuce3hnZNYmfTdMYaCSdjn9hxIjJAv2GEQ33RNrSWrN26Gx8HUGuLMtzsuQ1TJsEM82Jx9Kh30mNKT5FytKU4_JRLDy0a80wejrB033h0SxIsY3wt0QSjhpLu2SPfGrXOVQ8IkVz9mDvf4GRzaZ28woAv2wvdsqI6M7BIR5AoWfGjawyPZq5c-CeXDiPhutiYzBq1AiMSmsLwJChdkBGwspgQJomIurA069DZCJCOLxpF1KQYkEU_OiI7aeDmc3jcey_4vTqMcETEi0j1OxAmkLw==.AQAB"
+        },
+        {
+            "rel": "http://ostatus.org/schema/1.0/subscribe",
+            "template": "<%= $host %>/authorize_follow?acct={uri}"
+        }
+    ]
+}

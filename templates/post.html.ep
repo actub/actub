@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" >
+    <title>Raw.</title>
+  </head>
+  <body>
+    <h1>Raw.</h1>
+    <form method="post" action="<%= url_for('create') %>">
+      <div>Message</div>
+      <div>
+        <textarea name="message" cols="50" rows="10"></textarea>
+      </div>
+      <div>
+        <input type="submit" value="Post">
+      </div>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" >
+    <title>Raw.</title>
+  </head>
+  <body>
+    <h1>Raw.</h1>
+      <div>
+        <hr/>
+        <div>Date: <a href="<%= $e->{id} %>"><%= datetime($e->{datetime}) %></a></div>
+        <pre><%= $e->{message} %></pre>
+      <div>
+      <hr/>
+    </div>
+  </body>
+</html>
+
+
