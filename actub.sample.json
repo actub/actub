@@ -1,0 +1,12 @@
+{
+	"dbfile": "actub_test.sqlite",
+	"users": {
+		"testuser": {
+			"pass": "password",
+			"public_key": "-----BEGIN PUBLIC KEY-----\n...\n-----END PUBLIC KEY-----\n",
+			"private_key": "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----\n"
+		}
+	},
+    "host": "http://192.168.1.1",
+    "domain": "192.168.1.1"
+}
