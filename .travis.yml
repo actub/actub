@@ -1,0 +1,6 @@
+language: perl
+perl:
+  - "5.26"
+
+script:
+  - prove -lvr t
