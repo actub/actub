@@ -4,3 +4,5 @@ cover_db/
 pm_to_blib
 actub_job.sqlite
 t/*.sqlite
+_build/
+Build
