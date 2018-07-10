@@ -25,6 +25,9 @@ sub execute {
 
     my $jonk = Jonk->new($dbhj => {functions => [qw/post/]}) or die;
     my $job = $jonk->find_job;
+    if (!defined $job) {
+        exit 0;
+    }
     print $job->func;
     print $job->arg;
 
