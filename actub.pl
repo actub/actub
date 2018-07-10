@@ -40,8 +40,14 @@ sub startup {
     $self->types->type(as => 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"');
 }
 
+my $dbfile = app->config('dbfile');
+
+if(!defined $dbfile) {
+    $dbfile = 'actub.sqlite'
+}
+
 my $conn = DBIx::Connector->new(
-    "dbi:SQLite:dbname=actub.sqlite", '', '',
+    'dbi:SQLite:dbname=' . $dbfile, '', '',
     {
         RaiseError => 1,
         PrintError => 0,
