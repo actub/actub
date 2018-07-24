@@ -7,6 +7,8 @@ use Actub::Model::Entry;
 use WWW::ActivityPub::Note;
 use WWW::ActivityPub::Create;
 
+use POSIX qw(strftime);
+
 use Data::Dumper;
 
 use Encode qw(encode);
