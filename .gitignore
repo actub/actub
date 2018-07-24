@@ -6,3 +6,4 @@ actub_job.sqlite
 t/*.sqlite
 _build/
 Build
+*.bat
