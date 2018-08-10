@@ -7,3 +7,8 @@ t/*.sqlite
 _build/
 Build
 *.bat
+MYMETA.yml
+MYMETA.json
+.vstags
+actub.json
+actub_test.sqlite
