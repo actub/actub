@@ -13,7 +13,7 @@ BEGIN {
     copy "$base/actub_base.sqlite", "$base/actub_test.sqlite";
 }
 
-my $t = Test::Mojo->new;
+my $t = Test::Mojo->new('Actub');
 $t->ua->max_redirects(1);
 
 $t->get_ok('/.well-known/host-meta')->status_is(200);
