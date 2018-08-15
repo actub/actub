@@ -34,6 +34,12 @@ $t->ua->max_redirects(1);
             )->status_is(200);
 
     note Dumper($t->tx->res->content->asset->slurp);
+
+    $t = $t->get_ok('/testuser/followers' =>
+            {Accept => 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'}
+            )->status_is(200);
+
+    note Dumper($t->tx->res->content->asset->slurp);
 }
 
 done_testing();
