@@ -1,5 +1,6 @@
 {
 	"dbfile": "actub_test.sqlite",
+	"dbjobfile": "t/test_job.sqlite",
 	"users": {
 		"testuser": {
 			"pass": "password",
