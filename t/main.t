@@ -16,12 +16,12 @@ BEGIN {
 my $t = Test::Mojo->new('Actub');
 $t->ua->max_redirects(1);
 
+my $as = {Accept => 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'};
+
 {
     $t->get_ok('/testuser')->status_is(200);
 
-    $t = $t->get_ok('/testuser' =>
-            {Accept => 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'}
-            )->status_is(200);
+    $t = $t->get_ok('/testuser' => $as)->status_is(200);
 
     $t->json_like('/url', '/.*testuser.*/');
 
@@ -29,15 +29,11 @@ $t->ua->max_redirects(1);
 
     note Dumper($t->tx->res->content->asset->slurp);
 
-    $t = $t->get_ok('/testuser/outbox' =>
-            {Accept => 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'}
-            )->status_is(200);
+    $t = $t->get_ok('/testuser/outbox' => $as)->status_is(200);
 
     note Dumper($t->tx->res->content->asset->slurp);
 
-    $t = $t->get_ok('/testuser/followers' =>
-            {Accept => 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"'}
-            )->status_is(200);
+    $t = $t->get_ok('/testuser/followers' => $as)->status_is(200);
 
     note Dumper($t->tx->res->content->asset->slurp);
 }
