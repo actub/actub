@@ -6,6 +6,8 @@ use warnings;
 use WWW::ActivityPub::Activity;
 use WWW::ActivityPub::Note;
 
+use Actub::Entry;
+
 sub make {
     my ($type, $top, $note) = @_;
     my $act = WWW::ActivityPub::Activity->new;
@@ -23,16 +25,7 @@ sub make {
 sub make_note {
     my ($top, $entry) = @_;
 
-    my $note = WWW::ActivityPub::Note->new;
-    $note->id($top . '/' . $entry->{id});
-    $note->type("Note");
-#    $note->summary();
-    $note->content($entry->{message});
-    $note->published("2001-01-01T00:00:00Z");
-    $note->attributedTo($top);
-    $note->to(["https://www.w3.org/ns/activitystreams#Public"]);
-    $note->cc([$top . '/followers']);
-
-    return $note;
+    return Actub::Entry::make_note(
+        $entry->{id}, $entry->{message}, $entry->{datetime}, $top);
 }
 1;

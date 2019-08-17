@@ -28,8 +28,9 @@ my $top = 'https://actub.ub32.org/argrath';
 
 {
     my $outbox = Actub::Outbox::make($top, [{
-	id => '1',
-	message => 'messagetest',
+        id => '1',
+        datetime => 2,
+        message => 'messagetest',
     }]);
 
     note $json->encode($outbox);
