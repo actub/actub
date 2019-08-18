@@ -59,13 +59,14 @@ sub followers {
     my $self = shift;
     my $app = $self->app;
     my $json = $app->json;
+    my $dbh = $app->conn->dbh;
 
-    my $top = 'https://actub.ub32.org/argrath';
+    my $actor = $app->config('host') . '/' . $self->param('name');
 
-    my $followers = Actub::Followers::make($top, [
-        'https://pawoo.net/users/argrath',
-        'https://mstdn.jp/users/argrath',
-        ]);
+    my $followerslist = Actub::Model::Followers::read_all($dbh);
+    my (@actorslist) = map {$_->{actor}} @$followerslist;
+
+    my $followers = Actub::Followers::make($actor, \@actorslist);
     my $out =  $json->encode($followers);
 
     $self->render(text => $out, format => 'as');
