@@ -120,6 +120,10 @@ sub startup {
         my ($self, $arg) = @_;
         return POSIX::strftime "%Y/%m/%d %H:%M:%S", localtime($arg);
     });
+    $self->helper(w3cdate => sub {
+        my ($self, $arg) = @_;
+        return POSIX::strftime "%Y-%m-%dT%H:%M:%SZ", gmtime($arg);
+    });
 }
 
 1;

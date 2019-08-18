@@ -37,11 +37,22 @@ sub actor {
 sub entry {
     my $self = shift;
     my $app = $self->app;
+    my $actor = $app->config('host') . '/' . $self->param('name');
 
     my $dbh = $app->conn->dbh;
     my $entry = Actub::Model::Entry::read_row($dbh, $self->param('id'));
+    $entry->{actor} = $actor;
 
-    $self->render(template => 'entry', e => $entry);
+    if(is_ap($self->req->headers->accept)){
+        my $json = $app->json;
+        my $note = Actub::Entry::make_note(
+            $entry->{id}, $entry->{message}, $entry->{datetime}, $entry->{actor});
+        $note->{context} = 'https://www.w3.org/ns/activitystreams';
+        my $out = $json->encode($note);
+        $self->render(text => $out, format => 'as');
+    } else {
+        $self->render(template => 'entry', e => $entry);
+    }
 }
 
 sub followers {

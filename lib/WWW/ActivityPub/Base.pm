@@ -13,6 +13,7 @@ sub TO_JSON {
         my $jsonkey = $key;
         if($key eq 'context'){
             $jsonkey = '@context';
+            if(!defined $$self{$_}){next;}
         }
         $ret{$jsonkey} = $$self{$_};
     }

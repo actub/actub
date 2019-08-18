@@ -10,7 +10,7 @@ require "$FindBin::Bin/../actub.pl";
 BEGIN {
     my $base = "$FindBin::Bin/..";
     $ENV{MOJO_CONFIG} = "$base/t/actub.test.json";
-    copy "$base/actub_base.sqlite", "$base/actub_test.sqlite";
+    copy "$base/actub_test_base.sqlite", "$base/actub_test.sqlite";
 }
 
 my $t = Test::Mojo->new('Actub');
@@ -34,6 +34,10 @@ my $as = {Accept => 'application/ld+json; profile="https://www.w3.org/ns/activit
     note Dumper($t->tx->res->content->asset->slurp);
 
     $t = $t->get_ok('/testuser/followers' => $as)->status_is(200);
+
+    note Dumper($t->tx->res->content->asset->slurp);
+
+    $t = $t->get_ok('/testuser/20180816213708' => $as)->status_is(200);
 
     note Dumper($t->tx->res->content->asset->slurp);
 }
