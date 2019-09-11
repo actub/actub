@@ -5,6 +5,7 @@ use Mojo::Base 'Mojolicious::Controller';
 sub actor {
     my $self = shift;
     my $app = $self->app;
+    my $actor = $app->config('host') . '/' . $self->param('name');
 
     my $name = $self->param('name');
     my $accept = $self->req->headers->accept // '';
@@ -21,11 +22,9 @@ sub actor {
         );
     if(is_ap($accept)){
         my $users = $app->config('users');
-        my $u = $users->{$name};
-        my $actor = Actub::Actor::make($app->config('host') . '/' . $name, $u);
-        my $json = JSON::PP->new;
-        $json = $json->convert_blessed(1);
-        my $out =  $json->encode($actor);
+        my $actorobj = Actub::Actor::make($actor, $users->{$name});
+        my $json = $app->json;
+        my $out = $json->encode($actorobj);
         $self->render(text => $out, format => 'as');
     } else {
         my $dbh = $app->conn->dbh;
