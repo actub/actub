@@ -1,4 +1,4 @@
-package Actub::Dequeue;
+package Actub::Signature;
 
 use Crypt::OpenSSL::RSA;
 

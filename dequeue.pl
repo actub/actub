@@ -10,7 +10,7 @@ use Jonk;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 
-use Actub::Dequeue;
+use Actub::Signature;
 
 use Data::Dumper;
 
@@ -39,7 +39,7 @@ sub execute {
 
     my $date = $req->headers->header('date');
 
-    my $sign = Actub::Dequeue::sign('date: ' . $date);
+    my $sign = Actub::Signature::sign('date: ' . $date);
 
     my $signature = sprintf 'keyId="%s",algorithm="rsa-sha256",signature="%s"', $from, $sign;
 
