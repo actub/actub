@@ -45,8 +45,10 @@ sub enqueue {
 
     my $json = JSON::PP->new->convert_blessed(1);
 
+    my $baseid = $decoded->{id};
+    $baseid =~ s@http(s)://@@;
     my $accept = make({
-        id => sprintf('%s/acccept/follow/%s', $actor, $decoded->{id}),
+        id => sprintf('%s/acccept/follow/%s', $actor, $baseid),
         actor => $actor,
         follow => $decoded,
     });
