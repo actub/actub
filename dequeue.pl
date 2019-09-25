@@ -10,11 +10,7 @@ use Jonk;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 
-use Crypt::OpenSSL::RSA;
-
-use File::Slurper 'read_text';
-use JSON::PP;
-use MIME::Base64;
+use Actub::Dequeue;
 
 use Data::Dumper;
 
@@ -43,7 +39,7 @@ sub execute {
 
     my $date = $req->headers->header('date');
 
-    my $sign = sign('date: ' . $date);
+    my $sign = Actub::Dequeue::sign('date: ' . $date);
 
     my $signature = sprintf 'keyId="%s",algorithm="rsa-sha256",signature="%s"', $from, $sign;
 
@@ -56,22 +52,6 @@ sub execute {
     print $res->as_string;
 
     $job->completed;
-}
-
-
-sub sign {
-    my ($data) = shift;
-
-    my $jsonfile = read_text('actub.json');
-    my $json = decode_json($jsonfile);
-
-    my $pk = $json->{users}->{argrath}->{private_key};
-
-    my $key = Crypt::OpenSSL::RSA->new_private_key($pk);
-    $key->use_sha256_hash();
-    my $s = $key->sign($data);
-
-    return encode_base64($s, "");
 }
 
 execute;
