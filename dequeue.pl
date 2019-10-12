@@ -28,21 +28,21 @@ sub execute {
     print $job->arg;
 
     my ($from, $to, $content) = split /\n/, $job->arg;
+    my $url = $to . '/inbox';
 
+    my $contenttype = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
     my $req = POST(
-    $to . '/inbox',
-    'Content-Type' => 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"',
-    Content => $content
+        $url,
+        'Content-Type' => $contenttype,
+        Content => $content
     );
 
     $req->headers->date(time);
-
     my $date = $req->headers->header('date');
-
     my $sign = Actub::Signature::sign('date: ' . $date);
-
-    my $signature = sprintf 'keyId="%s",algorithm="rsa-sha256",signature="%s"', $from, $sign;
-
+    my $signature =
+      sprintf 'keyId="%s",algorithm="rsa-sha256",signature="%s"',
+        $from, $sign;
     $req->headers->push_header(Signature => $signature);
 
     my $res = $ua->request($req);
