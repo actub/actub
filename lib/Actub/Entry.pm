@@ -98,7 +98,7 @@ sub enqueue {
 
     my $followers = Actub::Model::Followers::read_all($dbh);
 
-    print $entrystr;
+    print $entrystr . "\n";
 
     for(@$followers){
         print $_->{actor} . "\n";

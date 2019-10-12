@@ -5,18 +5,11 @@ use Mojo::Base 'Mojolicious::Controller';
 sub inbox {
     my $self = shift;
     my $app = $self->app;
-
     my $entity = $self->req->body;
-    print $entity . "\n";
-
     my $jj = $self->req->json;
-
     my $dbh = $app->conn->dbh;
-    Actub::Model::Received::insert($dbh, {
-        id => $jj->{id},
-        type => $jj->{type},
-        entity => $entity,
-    });
+
+    $app->log->info($jj->{id}, $jj->{type}, $entity);
 
     if($jj->{type} eq 'Follow'){
         Actub::Followers::add($dbh, $self->param('name'), $jj->{actor});

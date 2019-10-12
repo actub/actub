@@ -18,8 +18,7 @@ sub webfinger {
     $id =~ s/^acct://;
     $id =~ s/@.*//;
     my $accept = $c->req->headers->accept // '';
-    print "accept: $accept\n";
-    print "webfinger: $id\n";
+    $app->log->info($accept, $id);
     $c->stash(
         domain => $app->config('domain'),
         host => $app->config('host'),

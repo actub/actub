@@ -9,8 +9,7 @@ sub actor {
 
     my $name = $self->param('name');
     my $accept = $self->req->headers->accept // '';
-    print "accept: $accept\n";
-    print "self: $name\n";
+    $app->log->info($accept, $name);
     if(!is_user($name, $app->config('users'))){
         $self->reply->not_found;
         return;
