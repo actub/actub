@@ -6,4 +6,4 @@ on 'configure' => sub {
 requires 'Class::Tiny';
 requires 'DBD::SQLite';
 requires 'DBIx::Connector';
-requires 'Mojolicious', '>= 6.64, < 7.75';
+requires 'Mojolicious', '7.76';

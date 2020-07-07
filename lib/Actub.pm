@@ -96,19 +96,19 @@ sub startup {
 
     my $r = $self->routes;
 
-    $r->get('/(:name)/new')->to('edit#newform')->name('post');
+    $r->get('/<:name>/new')->to('edit#newform')->name('post');
 
-    $r->post('/(:name)/new/create')->to('edit#create')->name('create');
+    $r->post('/<:name>/new/create')->to('edit#create')->name('create');
 
-    $r->get('/(:name)')->to('resource#actor')->name('index');
+    $r->get('/<:name>')->to('resource#actor')->name('index');
 
-    $r->post('/(:name)/inbox')->to('receive#inbox');
+    $r->post('/<:name>/inbox')->to('receive#inbox');
 
-    $r->get('/(:name)/outbox')->to('resource#outbox');
+    $r->get('/<:name>/outbox')->to('resource#outbox');
 
-    $r->get('/(:name)/followers')->to('resource#followers');
+    $r->get('/<:name>/followers')->to('resource#followers');
 
-    $r->get('/(:name)/(:id)')->to('resource#entry')->name('entry');
+    $r->get('/<:name>/<:id>')->to('resource#entry')->name('entry');
 
     # server
 
