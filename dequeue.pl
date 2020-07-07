@@ -21,6 +21,7 @@ sub execute {
     my $job = $jonk->find_job;
     if (defined $job) {
         do_post($job->arg);
+        $job->completed;
     }
 }
 
@@ -50,8 +51,6 @@ sub do_post {
 #print Dumper($res);
 
     print $res->as_string;
-
-    $job->completed;
 }
 
 execute;
