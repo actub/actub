@@ -1,7 +1,7 @@
+package Actub::Dequeue;
+
 use strict;
 use warnings;
-
-use lib 'lib';
 
 use DBI;
 use DBD::SQLite;
@@ -53,4 +53,4 @@ sub do_post {
     print $res->as_string;
 }
 
-execute;
+1;
