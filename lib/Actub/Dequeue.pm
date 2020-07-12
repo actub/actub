@@ -18,16 +18,18 @@ sub execute {
     my $dbhj = DBI->connect("dbi:SQLite:dbname=actub_job.sqlite","","");
 
     my $jonk = Jonk->new($dbhj => {functions => [qw/post/]}) or die;
+    my $ua = LWP::UserAgent->new;
     my $job; 
     while ($job = $jonk->find_job) {
-        do_post($job->arg);
+        my $res = do_post($ua, $job->arg);
+        print $res->as_string;
         $job->completed;
     }
 }
 
 sub do_post {
-    my ($from, $to, $content) = split /\n/, $_[0];
-    my $ua = LWP::UserAgent->new;
+    my ($ua, $arg) = @_;
+    my ($from, $to, $content) = split /\n/, $arg;
 
     my $url = $to . '/inbox';
 
@@ -48,9 +50,7 @@ sub do_post {
 
     my $res = $ua->request($req);
 
-#print Dumper($res);
-
-    print $res->as_string;
+    return $res;
 }
 
 1;
