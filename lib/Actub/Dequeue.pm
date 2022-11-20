@@ -12,6 +12,9 @@ use HTTP::Request::Common;
 
 use Actub::Signature;
 
+use Digest::SHA qw(sha256);
+use MIME::Base64;
+
 use Data::Dumper;
 
 sub execute {
@@ -32,25 +35,39 @@ sub do_post {
     my ($from, $to, $content) = split /\n/, $arg;
 
     my $url = $to . '/inbox';
+    print "\n$url\n";
 
     my $contenttype = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
+    my $digest = digest_body($content);
+
     my $req = POST(
         $url,
         'Content-Type' => $contenttype,
-        Content => $content
+        Content => $content,
+        Digest => $digest,
     );
 
     $req->headers->date(time);
     my $date = $req->headers->header('date');
-    my $sign = Actub::Signature::sign('date: ' . $date);
+
+    my $signbody = sprintf "date: %s\ndigest: %s", $date, $digest;
+
+    my $sign = Actub::Signature::sign($signbody);
     my $signature =
-      sprintf 'keyId="%s",algorithm="rsa-sha256",signature="%s"',
-        $from, $sign;
+      sprintf 'keyId="%s",algorithm="rsa-sha256",headers="%s",signature="%s"',
+        $from, 'date digest', $sign;
     $req->headers->push_header(Signature => $signature);
 
     my $res = $ua->request($req);
 
     return $res;
+}
+
+sub digest_body {
+    my ($body) = @_;
+
+    my $digest = sha256($body);
+    return 'sha-256=' . encode_base64($digest, "");
 }
 
 1;

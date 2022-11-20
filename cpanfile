@@ -7,5 +7,6 @@ requires 'Class::Tiny';
 requires 'Crypt::OpenSSL::RSA';
 requires 'DBD::SQLite';
 requires 'DBIx::Connector';
+requires 'Digest::SHA';
 requires 'File::Slurper';
 requires 'Mojolicious', '7.76';
