@@ -53,7 +53,7 @@ sub enqueue {
         follow => $decoded,
     });
     my $acceptstr = $json->encode($accept);
-    my $queuestr = join('\n', $actor, $decoded->{actor}, $acceptstr);
+    my $queuestr = join("\n", $actor, $decoded->{actor}, $acceptstr);
     my $job_id = $jonk->insert('post', $queuestr);
 }
 
