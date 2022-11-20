@@ -45,6 +45,7 @@ sub do_post {
         'Content-Type' => $contenttype,
         Content => $content,
         Digest => $digest,
+        User_Agent => 'Actub/1.0',
     );
 
     $req->headers->date(time);
