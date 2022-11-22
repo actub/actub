@@ -2,6 +2,8 @@ package Actub::Controller::Receive;
 
 use Mojo::Base 'Mojolicious::Controller';
 
+use Actub::Log qw/logobj/;
+
 sub inbox {
     my $self = shift;
     my $app = $self->app;
@@ -9,7 +11,8 @@ sub inbox {
     my $jj = $self->req->json;
     my $dbh = $app->conn->dbh;
 
-    $app->log->info($jj->{id}, $jj->{type}, $entity);
+    logobj->info($jj->{id}, $jj->{type});
+    logobj->debug($entity);
 
     if($jj->{type} eq 'Follow'){
         Actub::Followers::add($dbh, $self->param('name'), $jj->{actor});

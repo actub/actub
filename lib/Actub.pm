@@ -14,6 +14,8 @@ use Actub::Followers;
 use Actub::Actor;
 use Actub::Accept;
 
+use Actub::Log qw/logobj/;
+
 use Actub::Model::Received;
 
 use JSON::PP;
@@ -43,6 +45,8 @@ sub startup {
             workers => 2,
         },
     );
+
+    logobj($app->log);
 
     $self->types->type(as => 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"');
 
