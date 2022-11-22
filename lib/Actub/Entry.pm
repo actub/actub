@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Actub::Model::Entry;
+use Actub::Enqueue;
 use WWW::ActivityPub::Note;
 use WWW::ActivityPub::Create;
 
@@ -11,7 +12,6 @@ use POSIX qw(strftime);
 
 use Data::Dumper;
 
-use Encode qw(encode);
 
 sub w3cdate {
     my $time = shift;
@@ -88,22 +88,10 @@ sub make {
 sub enqueue {
     my ($dbh, $actor, $entry, $dbhj) = @_;
 
-    print Dumper($entry);
-
-    my $jonk = Jonk->new($dbhj);
-
-    my $json = JSON::PP->new->convert_blessed(1);
-
-    my $entrystr = encode('UTF-8', $json->encode($entry));
-
     my $followers = Actub::Model::Followers::read_all($dbh);
+    my @tolist = map {$_->{actor}} @$followers;
 
-    print $entrystr . "\n";
-
-    for(@$followers){
-        print $_->{actor} . "\n";
-        my $job_id = $jonk->insert('post', $actor . "\n" . $_->{actor} . "\n" . $entrystr);
-     }
+    Actub::Enqueue::enqueue($actor, \@tolist, $entry, $dbhj);
 }
 
 1;
