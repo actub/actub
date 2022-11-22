@@ -6,9 +6,7 @@ use warnings;
 use WWW::ActivityPub::Accept;
 use WWW::ActivityPub::Follow;
 
-use Jonk;
-
-use JSON::PP;
+use Actub::Enqueue;
 
 my @context = (
     "https://www.w3.org/ns/activitystreams",
@@ -41,10 +39,6 @@ sub make {
 sub enqueue {
     my ($dbh, $actor, $decoded) = @_;
 
-    my $jonk = Jonk->new($dbh);
-
-    my $json = JSON::PP->new->convert_blessed(1);
-
     my $baseid = $decoded->{id};
     $baseid =~ s@http(s)://@@;
     my $accept = make({
@@ -52,9 +46,8 @@ sub enqueue {
         actor => $actor,
         follow => $decoded,
     });
-    my $acceptstr = $json->encode($accept);
-    my $queuestr = join("\n", $actor, $decoded->{actor}, $acceptstr);
-    my $job_id = $jonk->insert('post', $queuestr);
+
+    Actub::Enqueue::enqueue($actor, [$decoded->{actor}], $accept, $dbh);
 }
 
 1;
