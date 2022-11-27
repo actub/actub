@@ -2,6 +2,8 @@ package Actub::Controller::Resource;
 
 use Mojo::Base 'Mojolicious::Controller';
 
+use Actub::Log qw/log/;
+
 sub actor {
     my $self = shift;
     my $app = $self->app;
@@ -9,7 +11,7 @@ sub actor {
 
     my $name = $self->param('name');
     my $accept = $self->req->headers->accept // '';
-    $app->log->info($accept, $name);
+    log->info(sprintf('Actor: Accept: %s Name: %s', $accept, $name));
     if(!is_user($name, $app->config('users'))){
         $self->reply->not_found;
         return;
@@ -98,7 +100,6 @@ sub is_ap {
     for(@params){
         s/^ +//;
         s/ +$//;
-        print $_ . "\n";
         if($_ eq 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"' ||
            $_ eq 'application/activity+json'){ return 1; }
     }

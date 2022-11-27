@@ -2,15 +2,15 @@ package Actub::Log;
 
 use Exporter 'import';
 
-our @EXPORT_OK = qw/logobj/;
+our @EXPORT_OK = qw/log/;
 
-my $log;
+my $logobj;
 
-sub logobj {
+sub log {
     if($#_ > -1){
-        $log = @_[0];
+        $logobj = @_[0];
     }
-    return $log;
+    return $logobj;
 }
 
 1;

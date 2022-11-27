@@ -14,7 +14,7 @@ use Actub::Followers;
 use Actub::Actor;
 use Actub::Accept;
 
-use Actub::Log qw/logobj/;
+use Actub::Log;
 
 use Actub::Model::Received;
 
@@ -46,7 +46,7 @@ sub startup {
         },
     );
 
-    logobj($app->log);
+    Actub::Log::log($app->log);
 
     $self->types->type(as => 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"');
 
@@ -77,7 +77,7 @@ sub startup {
             $dbfile = 'actub_job.sqlite'
         }
 
-        print "$dbfile\n";
+        print "dbfile: $dbfile\n";
 
         my $conn = DBIx::Connector->new(
             'dbi:SQLite:dbname=' . $dbfile, '', '',

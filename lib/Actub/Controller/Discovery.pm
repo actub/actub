@@ -2,6 +2,8 @@ package Actub::Controller::Discovery;
 
 use Mojo::Base 'Mojolicious::Controller';
 
+use Actub::Log qw/log/;
+
 sub hostmeta {
     my $c = shift;
     my $app = $c->app;
@@ -18,7 +20,7 @@ sub webfinger {
     $id =~ s/^acct://;
     $id =~ s/@.*//;
     my $accept = $c->req->headers->accept // '';
-    $app->log->info($accept, $id);
+    log->info(sprintf('finger: Accept: %s ID: %s', $accept, $id));
     $c->stash(
         domain => $app->config('domain'),
         host => $app->config('host'),
