@@ -32,7 +32,7 @@ sub make {
         followers => $top . '/followers',
         url => $top,
         publicKey => $publickey,
-        preferredUsername => 'argrath',
+        preferredUsername => $u->{nick},
         );
 
     return $actor;
