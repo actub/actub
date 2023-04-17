@@ -15,12 +15,14 @@ sub inbox {
     log->debug($entity);
 
     if($jj->{type} eq 'Follow'){
+        log->info($entity);
         Actub::Followers::add($dbh, $self->param('name'), $jj->{actor});
 
         my $actor = $app->config('host') . '/' . $self->param('name');
         my $dbhj = $app->jobconn->dbh;
         Actub::Accept::enqueue($dbhj, $actor, $jj);
     } elsif($jj->{type} eq 'Undo'){
+        log->info($entity);
         Actub::Followers::delete($dbh, $self->param('name'), $jj->{actor});
     }
 
