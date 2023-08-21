@@ -11,6 +11,7 @@ use LWP::UserAgent;
 use HTTP::Request::Common;
 
 use Actub::Signature;
+use Authen::HTTP::Signature::Fediverse;
 
 use Digest::SHA qw(sha256);
 use MIME::Base64;
@@ -48,17 +49,7 @@ sub do_post {
         User_Agent => 'Actub/1.0',
     );
 
-    $req->headers->date(time);
-    my $date = $req->headers->header('date');
-
-    my $signbody = sprintf "date: %s\ndigest: %s", $date, $digest;
-
-    my $sign = Actub::Signature::sign($signbody);
-    my $signature =
-      sprintf 'keyId="%s",algorithm="rsa-sha256",headers="%s",signature="%s"',
-        $from, 'date digest', $sign;
-    $req->headers->push_header(Signature => $signature);
-
+    $req = Authen::HTTP::Signature::Fediverse::sign($req, $from, \&Actub::Signature::sign);
     my $res = $ua->request($req);
 
     return $res;
