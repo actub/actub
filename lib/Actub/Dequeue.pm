@@ -13,9 +13,6 @@ use HTTP::Request::Common;
 use Actub::Signature;
 use Authen::HTTP::Signature::Fediverse;
 
-use Digest::SHA qw(sha256);
-use MIME::Base64;
-
 use Data::Dumper;
 
 sub execute {
@@ -39,13 +36,12 @@ sub do_post {
     print "\n$url\n";
 
     my $contenttype = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
-    my $digest = digest_body($content);
+
 
     my $req = POST(
         $url,
         'Content-Type' => $contenttype,
         Content => $content,
-        Digest => $digest,
         User_Agent => 'Actub/1.0',
     );
 
@@ -53,13 +49,6 @@ sub do_post {
     my $res = $ua->request($req);
 
     return $res;
-}
-
-sub digest_body {
-    my ($body) = @_;
-
-    my $digest = sha256($body);
-    return 'sha-256=' . encode_base64($digest, "");
 }
 
 1;
