@@ -11,7 +11,8 @@ sub inbox {
     my $jj = $self->req->json;
     my $dbh = $app->conn->dbh;
 
-    log->info(sprintf('Inbox: ID:%s Type:%s', $jj->{id}, $jj->{type}));
+    log->info(sprintf('Inbox: ID:%s Content:%s Type:%s',
+        $jj->{id}, $self->req->headers->content_type, $jj->{type}));
     log->debug($entity);
 
     if($jj->{type} eq 'Follow'){
