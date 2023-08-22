@@ -35,8 +35,8 @@ sub do_post {
     my $url = $to . '/inbox';
     print "\n$url\n";
 
-    my $contenttype = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
-
+#    my $contenttype = 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"';
+    my $contenttype = 'application/activity+json';
 
     my $req = POST(
         $url,
