@@ -24,7 +24,11 @@ sub execute {
     while ($job = $jonk->find_job) {
         my $res = do_post($ua, $job->arg);
         print $res->as_string;
-        $job->completed;
+        if($res->is_success) {
+            $job->completed;
+        } else {
+            $job->failed;
+        }
     }
 }
 
