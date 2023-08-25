@@ -27,7 +27,11 @@ sub execute {
         if($res->is_success) {
             $job->completed;
         } else {
-            $job->failed;
+            if($job->retry_cnt >= 3) {
+                $job->aborted;
+            } else {
+                $job->failed;
+            }
         }
     }
 }
