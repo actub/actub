@@ -6,7 +6,7 @@ use warnings;
 use parent qw(WWW::ActivityPub::Base);
 
 use Class::Tiny qw(
-    context id type object
+    context id type actor object
     );
 
 1;
