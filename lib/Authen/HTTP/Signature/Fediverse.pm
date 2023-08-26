@@ -6,7 +6,7 @@ use warnings;
 use Digest::SHA qw(sha256);
 use MIME::Base64;
 
-my @headerlist = qw(date digest);
+my @headerlist = ('(request-target)', 'host', 'date', 'digest');
 
 sub sign {
     my ($req, $from, $signer) = @_;
@@ -38,7 +38,14 @@ sub make_signbody {
     my (@r) = ();
 
     for(@$list){
-        my $v = $req->header($_);
+        my $v;
+        if($_ eq '(request-target)'){
+            $v = sprintf "%s %s",
+                lc($req->method),
+                $req->uri->path_query;
+        } else {
+            $v = $req->header($_);
+        }
         push @r, sprintf '%s: %s', $_, $v;
     }
 

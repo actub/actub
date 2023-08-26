@@ -15,7 +15,7 @@ my $req = POST(
 );
 #$req->headers->date(time);
 
-note 'oldhost:' . $req->headers->header('host');
+#note 'oldhost:' . $req->headers->header('host');
 note 'authority:' . $req->uri->authority;
 note 'uri:' . $req->uri->authority;
 note 'path:' . $req->uri->path;
@@ -30,6 +30,8 @@ done_testing();
 
 sub test_signer {
     my $body = shift;
+    $body =~ s/\n/<\\n>/g;
+    $body = 'testsign:' . $body;
     note $body;
-    return 'testsign:' . $body;
+    return $body;
 }
