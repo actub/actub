@@ -11,8 +11,8 @@ sub inbox {
     my $jj = $self->req->json;
     my $dbh = $app->conn->dbh;
 
-    log->info(sprintf('Inbox: ID:%s Content:%s Type:%s',
-        $jj->{id}, $self->req->headers->content_type, $jj->{type}));
+    log->info(sprintf('Inbox: ID:%s Actor:%s Type:%s',
+        $jj->{id}, $jj->{actor}, $jj->{type}));
     log->debug($entity);
 
     if($jj->{type} eq 'Follow'){
@@ -24,7 +24,17 @@ sub inbox {
         Actub::Accept::enqueue($dbhj, $actor, $jj);
     } elsif($jj->{type} eq 'Undo'){
         log->info($entity);
-        Actub::Followers::delete($dbh, $self->param('name'), $jj->{actor});
+        if($jj->{object}->{type} eq 'Follow'){
+            Actub::Followers::delete($dbh, $self->param('name'), $jj->{actor});
+        }
+    }
+
+    if($jj->{type} ne 'Delete'){
+        Actub::Model::Received::insert($dbh, {
+            id => $jj->{id},
+            type => $jj->{type},
+            entity => $entity,
+        });
     }
 
     $self->render(text => "OK");
