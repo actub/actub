@@ -41,13 +41,19 @@ my $as = {Accept => 'application/ld+json; profile="https://www.w3.org/ns/activit
 
     note Dumper($t->tx->res->content->asset->slurp);
 
-    $t = $t->get_ok('/testuser/followers' => $as)->status_is(200);
+    $t = $t->get_ok('/testuser/followers' => $as)->status_is(200, 'followers');
 
     note Dumper($t->tx->res->content->asset->slurp);
 
-    $t = $t->get_ok('/testuser/20180816213708' => $as)->status_is(200);
+    $t = $t->get_ok('/testuser/following' => $as)->status_is(200, 'following');
 
     note Dumper($t->tx->res->content->asset->slurp);
+
+    $t = $t->get_ok('/testuser/20180816213708' => $as)->status_is(200, "existing entry");
+
+    note Dumper($t->tx->res->content->asset->slurp);
+
+    $t = $t->get_ok('/testuser/nosuchentry' => $as)->status_is(404, 'entry not found');
 }
 
 done_testing();
