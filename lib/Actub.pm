@@ -11,6 +11,7 @@ use Actub::Activity;
 use Actub::Entry;
 use Actub::Outbox;
 use Actub::Followers;
+use Actub::Following;
 use Actub::Actor;
 use Actub::Accept;
 
@@ -111,6 +112,8 @@ sub startup {
     $r->get('/<:name>/outbox')->to('resource#outbox');
 
     $r->get('/<:name>/followers')->to('resource#followers');
+
+    $r->get('/<:name>/following')->to('resource#following');
 
     $r->get('/<:name>/<:id>')->to('resource#entry')->name('entry');
 

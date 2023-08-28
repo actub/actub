@@ -78,6 +78,21 @@ sub followers {
     $self->render(text => $out, format => 'as');
 }
 
+sub following {
+    my $self = shift;
+    my $app = $self->app;
+    my $json = $app->json;
+    my $dbh = $app->conn->dbh;
+
+    my $actor = $app->config('host') . '/' . $self->param('name');
+
+    # assume no following actors
+    my $following = Actub::Following::make($actor, []);
+    my $out =  $json->encode($following);
+
+    $self->render(text => $out, format => 'as');
+}
+
 sub outbox {
     my $self = shift;
     my $app = $self->app;

@@ -12,7 +12,8 @@ my @context = (
 
 sub make {
     my ($top, $items) = @_;
-    my $outbox = WWW::ActivityPub::OrderedCollection->new;
+    my $outbox = WWW::ActivityPub::OrderedCollection->new(
+        orderedItems => $items);
 
     $outbox->context(\@context);
     $outbox->id($top . '/following');
