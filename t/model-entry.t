@@ -16,10 +16,10 @@ use File::Copy 'copy';
 my $conn;
 
 BEGIN {
-    copy 'actub_base.sqlite', 't/test_entry.sqlite';
+    copy 'actub_base.sqlite', 't/test_model_entry.sqlite';
 
     $conn = DBIx::Connector->new(
-	"dbi:SQLite:dbname=t/test_entry.sqlite", '', '', 
+	"dbi:SQLite:dbname=t/test_model_entry.sqlite", '', '', 
 	{
 	    RaiseError => 1,
 	    PrintError => 0,
@@ -45,19 +45,20 @@ binmode(STDOUT, ':encoding(cp932)');
 $Data::Dumper::Useperl = 1;
 
 {
-    note Dumper([Actub::Model::Entry::read_all($conn->dbh)]);
-
-    pass('');
+    my $ret = Actub::Model::Entry::read_all($conn->dbh);
+    note Dumper($ret);
+    is($#$ret, -1, 'real_all: no data');
 }
 
 {
-    note Dumper([Actub::Model::Entry::read_top($conn->dbh)]);
-
-    pass('');
+    my $ret = Actub::Model::Entry::read_top($conn->dbh);
+    note Dumper($ret);
+    is($#$ret, -1, 'real_top: no data');
 }
 
 {
-    note Dumper([Actub::Model::Entry::read_row($conn->dbh, '20171222005231')]);
-    pass('');
+    my $ret = Actub::Model::Entry::read_row($conn->dbh, '20171222005231');
+    note Dumper($ret);
+    is($ret, undef, 'real_raw: no data');
 }
 

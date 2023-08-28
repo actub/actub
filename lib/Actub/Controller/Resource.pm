@@ -41,6 +41,12 @@ sub entry {
 
     my $dbh = $app->conn->dbh;
     my $entry = Actub::Model::Entry::read_row($dbh, $self->param('id'));
+
+    if(!defined $entry){
+        $self->render(text => 'Not found.', status => '404');
+        return;
+    }
+
     $entry->{actor} = $actor;
 
     if(is_ap($self->req->headers->accept)){
