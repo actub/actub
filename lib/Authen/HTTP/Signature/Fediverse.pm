@@ -9,7 +9,7 @@ use MIME::Base64;
 my @headerlist = ('(request-target)', 'host', 'date', 'digest');
 
 sub sign {
-    my ($req, $from, $signer) = @_;
+    my ($req, $from, $signer, $pk) = @_;
     my $date = $req->header('date');
 
     my $digest = digest_body($req->content);
@@ -24,7 +24,7 @@ sub sign {
 
     my $signbody = make_signbody($req, \@headerlist);
 
-    my $sign = &$signer($signbody);
+    my $sign = &$signer($signbody, $pk);
     my $signature =
       sprintf 'keyId="%s",algorithm="rsa-sha256",headers="%s",signature="%s"',
         $from, join(' ', @headerlist), $sign;

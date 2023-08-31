@@ -21,7 +21,7 @@ note 'uri:' . $req->uri->authority;
 note 'path:' . $req->uri->path;
 note 'path:' . $req->uri->path_query;
 
-$req = Authen::HTTP::Signature::Fediverse::sign($req, '', \&test_signer);
+$req = Authen::HTTP::Signature::Fediverse::sign($req, '', \&test_signer, 'DummyPK');
 
 note 'newhost:' . $req->headers->header('host');
 note 'Sig:' . $req->header('Signature');
@@ -29,9 +29,10 @@ note 'Sig:' . $req->header('Signature');
 done_testing();
 
 sub test_signer {
-    my $body = shift;
+    my ($body, $pk) = @_;
     $body =~ s/\n/<\\n>/g;
     $body = 'testsign:' . $body;
     note $body;
+    is($pk, 'DummyPK', 'PK');
     return $body;
 }
