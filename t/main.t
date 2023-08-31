@@ -27,30 +27,26 @@ my $as = {Accept => 'application/ld+json; profile="https://www.w3.org/ns/activit
     $t->content_like(qr/self/);
     note $t->tx->res->content->asset->slurp;
 
+    $t->get_ok('/nosuchuser')->status_is(404, 'user not found');
+
     $t->get_ok('/testuser')->status_is(200);
 
     $t = $t->get_ok('/testuser' => $as)->status_is(200);
-
     $t->json_like('/url', '/.*testuser.*/');
-
     $t->json_like('/publicKey/publicKeyPem', '/.*PUBLIC KEY.*/');
-
     note Dumper($t->tx->res->content->asset->slurp);
 
     $t = $t->get_ok('/testuser/outbox' => $as)->status_is(200);
-
+    $t->json_is('/type' => 'orderedCollection');
     note Dumper($t->tx->res->content->asset->slurp);
 
     $t = $t->get_ok('/testuser/followers' => $as)->status_is(200, 'followers');
-
     note Dumper($t->tx->res->content->asset->slurp);
 
     $t = $t->get_ok('/testuser/following' => $as)->status_is(200, 'following');
-
     note Dumper($t->tx->res->content->asset->slurp);
 
     $t = $t->get_ok('/testuser/20180816213708' => $as)->status_is(200, "existing entry");
-
     note Dumper($t->tx->res->content->asset->slurp);
 
     $t = $t->get_ok('/testuser/nosuchentry' => $as)->status_is(404, 'entry not found');
