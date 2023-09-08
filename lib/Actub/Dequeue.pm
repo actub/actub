@@ -23,9 +23,8 @@ sub get_pk {
     my $jsonfile = read_text($conffile);
     my $json = decode_json($jsonfile);
     my $users = $json->{users};
-    my $user = (keys %$users)[0];
 
-    return $users->{$user}->{private_key};
+    return $users->[0]->{private_key};
 }
 
 sub execute {

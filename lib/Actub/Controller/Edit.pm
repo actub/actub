@@ -45,8 +45,10 @@ sub auth {
     my ($header, $users) = @_;
     if (!defined $header){return 0;}
     my ($user, $pass) = split /:/, $header;
-    my $u = $users->{$user};
+    my $u = $users->[0];
     if(!defined $u){return 0;}
+    my $uu = $u->{id};
+    if(!defined $uu || $uu ne $user){return 0;}
     my $p = $u->{pass};
     if(!defined $p){return 0;}
     return $p eq $pass;

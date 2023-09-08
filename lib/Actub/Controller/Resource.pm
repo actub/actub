@@ -23,7 +23,7 @@ sub actor {
         );
     if(is_ap($accept)){
         my $users = $app->config('users');
-        my $actorobj = Actub::Actor::make($actor, $users->{$name});
+        my $actorobj = Actub::Actor::make($actor, $users->[0]);
         my $json = $app->json;
         my $out = $json->encode($actorobj);
         $self->render(text => $out, format => 'as');
@@ -111,7 +111,7 @@ sub outbox {
 
 sub is_user {
     my ($user, $users) = @_;
-    return defined $users->{$user};
+    return $users->[0]->{id} eq $user;
 }
 
 sub is_ap {
