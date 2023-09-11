@@ -16,7 +16,7 @@ use File::Copy 'copy';
 my $conn;
 
 BEGIN {
-    copy 'actub_base.sqlite', 't/test_entry.sqlite';
+    copy 'actub_base.sqlite', 't/test_entry.sqlite' or fail "$!";
 
     $conn = DBIx::Connector->new(
 	"dbi:SQLite:dbname=t/test_entry.sqlite", '', '', 

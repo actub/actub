@@ -9,8 +9,8 @@ require "$FindBin::Bin/../actub.pl";
 
 BEGIN {
     my $base = "$FindBin::Bin/..";
-    $ENV{MOJO_CONFIG} = "$base/actub.sample.json";
-    copy "$base/actub_base.sqlite", "$base/actub_test.sqlite";
+    $ENV{MOJO_CONFIG} = "$base/t/actub.test.json";
+    copy "$base/actub_test_base.sqlite", "$base/actub_test.sqlite" or fail "$!";;
 }
 
 my $t = Test::Mojo->new('Actub');
