@@ -26,7 +26,7 @@ $req = Authen::HTTP::Signature::Fediverse::sign($req, '', \&test_signer, 'DummyP
 note 'newhost:' . $req->headers->header('host');
 note 'Sig:' . $req->header('Signature');
 
-done_testing();
+#done_testing();
 
 sub test_signer {
     my ($body, $pk) = @_;
