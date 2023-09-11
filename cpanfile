@@ -9,4 +9,5 @@ requires 'DBD::SQLite';
 requires 'DBIx::Connector';
 requires 'Digest::SHA';
 requires 'File::Slurper';
+requires 'LWP::UserAgent';
 requires 'Mojolicious', '7.76';
