@@ -56,7 +56,7 @@ sub digest_body {
     my ($body) = @_;
 
     my $digest = sha256($body);
-    return 'sha-256=' . encode_base64($digest, "");
+    return 'SHA-256=' . encode_base64($digest, "");
 }
 
 1;
