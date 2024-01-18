@@ -6,28 +6,32 @@ use warnings;
 use Digest::SHA qw(sha256);
 use MIME::Base64;
 
-my @headerlist = ('(request-target)', 'host', 'date', 'digest');
+my %headerlist = (
+    POST => ['(request-target)', 'host', 'date', 'digest'],
+    GET => ['(request-target)', 'host', 'date'],
+);
 
 sub sign {
     my ($req, $from, $signer, $pk) = @_;
-    my $date = $req->header('date');
-
-    my $digest = digest_body($req->content);
-    $req->header(Digest => $digest);
-
-    if(!defined $date){
-        $req->date(time);
-        $date = $req->header('date');
-    }
 
     $req->header(Host => $req->uri->authority);
 
-    my $signbody = make_signbody($req, \@headerlist);
+    if(!defined $req->header('date')){
+        $req->date(time);
+    }
+
+    if($req->content ne ''){
+        $req->header(Digest => digest_body($req->content));
+    }
+
+    my $list = $headerlist{$req->method};
+
+    my $signbody = make_signbody($req, $list);
 
     my $sign = &$signer($signbody, $pk);
     my $signature =
       sprintf 'keyId="%s",algorithm="rsa-sha256",headers="%s",signature="%s"',
-        $from, join(' ', @headerlist), $sign;
+        $from, join(' ', @$list), $sign;
     $req->headers->push_header(Signature => $signature);
 
     return $req;
