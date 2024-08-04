@@ -1,4 +1,4 @@
-package Authen::HTTP::Signature::Fediverse;
+package Authen::HTTP::Signature::ActivityPub;
 
 use strict;
 use warnings;

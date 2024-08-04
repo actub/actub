@@ -11,7 +11,7 @@ use LWP::UserAgent;
 use HTTP::Request::Common;
 
 use Actub::Signature;
-use Authen::HTTP::Signature::Fediverse;
+use Authen::HTTP::Signature::ActivityPub;
 
 use Data::Dumper;
 
@@ -66,7 +66,7 @@ sub do_post {
         User_Agent => 'Actub/1.0',
     );
 
-    $req = Authen::HTTP::Signature::Fediverse::sign($req, $from, \&Actub::Signature::sign, $pk);
+    $req = Authen::HTTP::Signature::ActivityPub::sign($req, $from, \&Actub::Signature::sign, $pk);
     my $res = $ua->request($req);
 
     return $res;

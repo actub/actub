@@ -6,7 +6,7 @@ use HTTP::Request::Common;
 #use Test::More tests => 1;
 use Test::More qw(no_plan);
 
-BEGIN { use_ok('Authen::HTTP::Signature::Fediverse') };
+BEGIN { use_ok('Authen::HTTP::Signature::ActivityPub') };
 
 {
     my $req = POST(
@@ -16,7 +16,7 @@ BEGIN { use_ok('Authen::HTTP::Signature::Fediverse') };
     );
 
     note_req($req);
-    $req = Authen::HTTP::Signature::Fediverse::sign($req, 'dummyKeyId', \&test_signer, 'DummyPK');
+    $req = Authen::HTTP::Signature::ActivityPub::sign($req, 'dummyKeyId', \&test_signer, 'DummyPK');
     my $sig = $req->header('Signature');
 
     note 'newhost:' . $req->headers->header('host');
@@ -31,7 +31,7 @@ BEGIN { use_ok('Authen::HTTP::Signature::Fediverse') };
     );
 
     note_req($req);
-    $req = Authen::HTTP::Signature::Fediverse::sign($req, 'dummyKeyId', \&test_signer, 'DummyPK');
+    $req = Authen::HTTP::Signature::ActivityPub::sign($req, 'dummyKeyId', \&test_signer, 'DummyPK');
     my $sig = $req->header('Signature');
 
     note 'newhost:' . $req->headers->header('host');
