@@ -3,7 +3,7 @@ package Actub::Enqueue;
 use strict;
 use warnings;
 
-use Jonk;
+use Jonk2;
 use Encode qw(encode);
 use Data::Dumper;
 
@@ -12,7 +12,7 @@ sub enqueue {
 
     print Dumper($entry);
 
-    my $jonk = Jonk->new($dbhj);
+    my $jonk = Jonk2->new($dbhj);
 
     my $json = JSON::PP->new->convert_blessed(1);
 

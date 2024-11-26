@@ -5,7 +5,7 @@ use warnings;
 
 use DBI;
 use DBD::SQLite;
-use Jonk;
+use Jonk2;
 
 use LWP::UserAgent;
 use HTTP::Request::Common;
@@ -30,7 +30,7 @@ sub get_pk {
 sub execute {
     my $dbhj = DBI->connect("dbi:SQLite:dbname=actub_job.sqlite","","");
 
-    my $jonk = Jonk->new($dbhj => {functions => [qw/post/]}) or die;
+    my $jonk = Jonk2->new($dbhj => {functions => [qw/post/]}) or die;
     my $ua = LWP::UserAgent->new;
     my $pk = get_pk();
     my $job; 

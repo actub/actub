@@ -1,4 +1,4 @@
-package Jonk::Job;
+package Jonk2::Job;
 use strict;
 use warnings;
 use Carp ();
@@ -79,7 +79,7 @@ __END__
 
 =head1 NAME
 
-Jonk::Job - Jonk job class.
+Jonk2::Job - Jonk2 job class.
 
 =head1 SYNOPSIS
 
