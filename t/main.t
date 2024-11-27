@@ -42,7 +42,7 @@ my $as = {Accept => 'application/ld+json; profile="https://www.w3.org/ns/activit
     note Dumper($t->tx->res->content->asset->slurp);
 
     $t = $t->get_ok('/testuser/outbox' => $as)->status_is(200);
-    $t->json_is('/type' => 'orderedCollection');
+    $t->json_is('/type' => 'OrderedCollection');
     note Dumper($t->tx->res->content->asset->slurp);
 
     $t = $t->get_ok('/testuser/followers' => $as)->status_is(200, 'followers');

@@ -9,7 +9,7 @@ use Class::Tiny qw(context id type totalItems orderedItems);
 
 sub BUILD {
     my ($self, $args) = @_;
-    $self->type('orderedCollection');
+    $self->type('OrderedCollection');
     $self->totalItems($#{$self->orderedItems} + 1);
 }
 
