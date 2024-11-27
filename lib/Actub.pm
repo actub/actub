@@ -1,6 +1,7 @@
 package Actub;
 
 use Mojo::Base 'Mojolicious';
+use Mojo::Log;
 use utf8;
 use Encode qw/encode decode/;
 
@@ -47,7 +48,12 @@ sub startup {
         },
     );
 
-    Actub::Log::log($app->log);
+    if ($app->mode eq 'development') {
+        Actub::Log::log($app->log);
+    } else {
+        Actub::Log::log(Mojo::Log->new(path => $app->home->child('log', 'production.log')));
+    }
+
 
     $self->types->type(as => 'application/ld+json; profile="https://www.w3.org/ns/activitystreams"');
 
