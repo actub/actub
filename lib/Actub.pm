@@ -50,8 +50,11 @@ sub startup {
 
     if ($app->mode eq 'development') {
         Actub::Log::log($app->log);
+        Actub::Log::dlog($app->log);
     } else {
-        Actub::Log::log(Mojo::Log->new(path => $app->home->child('log', 'production.log')));
+        my $h = $app->home;
+        Actub::Log::log(Mojo::Log->new(path => $h->child('log', 'production.log')));
+        Actub::Log::dlog(Mojo::Log->new(path => $h->child('log', 'debug.log')));
     }
 
 

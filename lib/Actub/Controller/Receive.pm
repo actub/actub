@@ -2,7 +2,7 @@ package Actub::Controller::Receive;
 
 use Mojo::Base 'Mojolicious::Controller';
 
-use Actub::Log qw/log/;
+use Actub::Log qw/log dlog/;
 
 sub inbox {
     my $self = shift;
@@ -13,7 +13,7 @@ sub inbox {
 
     log->info(sprintf('Inbox: ID:%s Actor:%s Type:%s',
         $jj->{id}, $jj->{actor}, $jj->{type}));
-    log->debug($entity);
+    dlog->debug($entity);
 
     if($jj->{type} eq 'Follow'){
         log->info($entity);
